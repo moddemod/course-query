@@ -22,6 +22,7 @@ class Window(QWidget, Ui_Form):
         self.set_window()
         self.question = ''
 
+
     def set_window(self):
         self.setWindowTitle('查题助手--moddemod')
         self.setMaximumSize(600, 300)
@@ -56,7 +57,14 @@ class Window(QWidget, Ui_Form):
             self.textBrowser.setText('请输入问题哦！')
             return
         result = self.req(self.question)
-        r_json = json.loads(result)
+        print(result)
+        try:
+            r_json = json.loads(result)
+            print(r_json)
+        except:
+            r_json = {
+                'tm': '服务器有问题！'
+            }
 
         question = r_json['tm']
         try:
@@ -72,12 +80,15 @@ class Window(QWidget, Ui_Form):
 
     @staticmethod
     def req(question='java'):
-        requests.get(url='https://xcx.fm210.cn/api/chunshuchati/api/ajax.php?type=qd&openid=ocgIw5TSj8f1JmALChj5N_mzDt3c')
-        url = 'https://xcx.fm210.cn/api/chunshuchati/api/ajax.php?type=getda'
-        data = 'openid=ocgIw5TSj8f1JmALChj5N_mzDt3c&w=' + quote(question.replace(" ", '').replace('\n', ''))
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.12(0x17000c30) NetType/WIFI Language/zh_CN'
+
         }
+        r = requests.get(url='https://xcx.fm210.cn/api/chunshuchati/api/ajax.php?type=qd&openid=ocgIw5TSj8f1JmALChj5N_mzDt3c', headers=headers)
+        print(r.text)
+        url = 'https://xcx.fm210.cn/api/chunshuchati/api/ajax.php?type=getda'
+        data = 'openid=ocgIw5TSj8f1JmALChj5N_mzDt3c&w=' + quote(question.replace(" ", '').replace('\n', ''))
         try:
             res = requests.post(url=url, data=data, headers=headers)
             return res.text
