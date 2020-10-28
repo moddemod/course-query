@@ -66,13 +66,13 @@ class Window(QWidget, Ui_Form):
                 'tm': '服务器有问题！'
             }
 
-        question = r_json['tm']
+        question = self.question
         try:
-            question_select = r_json['xx']
+            question_select = ''
         except:
             question_select = ''
         try:
-            answer = r_json['da'].replace('关注公众号【花开校园】', '')
+            answer = r_json['data']
         except:
             answer = ''
         text = '问题:<h4>{}<br>{}</h4>答案:<p style="color:red"><b>{}</b><p>'.format(question, question_select, answer)
@@ -80,15 +80,15 @@ class Window(QWidget, Ui_Form):
 
     @staticmethod
     def req(question='java'):
+        token = 'PqOxtkakjXDHWlCk'
         headers = {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/7.0.12(0x17000c30) NetType/WIFI Language/zh_CN'
-
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Authorization': token,
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
+                          '/85.0.4183.83Safari/537.36'
         }
-        r = requests.get(url='https://xcx.fm210.cn/api/chunshuchati/api/ajax.php?type=qd&openid=ocgIw5TSj8f1JmALChj5N_mzDt3c', headers=headers)
-        print(r.text)
-        url = 'https://xcx.fm210.cn/api/chunshuchati/api/ajax.php?type=getda'
-        data = 'openid=ocgIw5TSj8f1JmALChj5N_mzDt3c&w=' + quote(question.replace(" ", '').replace('\n', ''))
+        url = 'http://cx.icodef.com/wyn-nb'
+        data = 'question=' + quote(question)
         try:
             res = requests.post(url=url, data=data, headers=headers)
             return res.text
