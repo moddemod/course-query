@@ -12,6 +12,14 @@ $ cd course-query
 $ pipenv install
 ```
 
+## 打包exe
+打包命令，安装完`pyinstaller`后
+
+```
+pyinstaller -F -i tou.ico -w query_main.py
+
+```
+
 ## 使用方法
 
 1. 手动输入题目查询即可.
