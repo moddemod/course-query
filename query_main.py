@@ -72,7 +72,7 @@ class Window(QWidget, Ui_Form):
         except:
             question_select = ''
         try:
-            answer = r_json['data']
+            answer = r_json['answer'].replace('公众号：【熊猫搜题】\n查询更准哦！❤️', '')
         except:
             answer = ''
         text = '问题:<h4>{}<br>{}</h4>答案:<p style="color:red"><b>{}</b><p>'.format(question, question_select, answer)
@@ -80,18 +80,14 @@ class Window(QWidget, Ui_Form):
 
     @staticmethod
     def req(question='java'):
-        token = 'PqOxtkakjXDHWlCk'
+        url = 'http://api.xmlm8.com/tp/tk.php?t=' + question
         headers = {
-            'Content-type': 'application/x-www-form-urlencoded',
-            'Authorization': token,
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
                           '/85.0.4183.83Safari/537.36'
         }
-        url = 'http://cx.icodef.com/wyn-nb'
-        data = 'question=' + quote(question)
         try:
-            res = requests.post(url=url, data=data, headers=headers)
-            return res.text
+            response = requests.get(url=url, headers=headers)
+            return response.text
         except:
             return '{"tm": "请检查网络环境！", "da": "请检查网络环境！"}'
 
