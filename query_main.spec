@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['query_main.py'],
-             pathex=['F:\\c\\demo\\python3\\PyQt'],
+             pathex=['C:\\Users\\Administrator\\course-query'],
              binaries=[],
              datas=[],
              hiddenimports=[],
