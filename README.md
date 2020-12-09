@@ -34,3 +34,7 @@ pyinstaller -F -i tou.ico -w query_main.py
 ![pic](pic.gif)
 
 如果有需要，自行diy，如果帮到你，请给个star！
+
+## windows平台打包下载
+
+[https://wws.lanzous.com/iSuLSj7w4zc](https://wws.lanzous.com/iSuLSj7w4zc "查题助手 v3.0")
