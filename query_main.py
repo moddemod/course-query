@@ -24,7 +24,7 @@ class Window(QWidget, Ui_Form):
 
 
     def set_window(self):
-        self.setWindowTitle('查题助手--moddemod')
+        self.setWindowTitle('查题助手 v3.0')
         self.setMaximumSize(600, 300)
         self.setMinimumWidth(300)
         self.adjustSize()
