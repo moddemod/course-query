@@ -13,6 +13,7 @@ import requests
 import json
 import query_ico_rc
 from urllib.parse import quote
+from pyquery import PyQuery
 
 
 class Window(QWidget, Ui_Form):
@@ -57,37 +58,39 @@ class Window(QWidget, Ui_Form):
             self.textBrowser.setText('请输入问题哦！')
             return
         result = self.req(self.question)
-        print(result)
+        d_result = {}
         try:
-            r_json = json.loads(result)
-            print(r_json)
-        except:
-            r_json = {
-                'tm': '服务器有问题！'
+            r_list = result.split('正确答案：')
+            d_result = {
+                'question': r_list[0],
+                'answer': r_list[1]
             }
-
-        question = self.question
-        try:
-            question_select = ''
         except:
-            question_select = ''
-        try:
-            answer = r_json['answer'].replace('公众号：【熊猫搜题】\n查询更准哦！❤️', '')
-        except:
-            answer = ''
-        text = '问题:<h4>{}<br>{}</h4>答案:<p style="color:red"><b>{}</b><p>'.format(question, question_select, answer)
+            d_result = {
+                'question': 'error！ 无法查询哦，请重试',
+                'answer': 'error！'
+            }
+        question = d_result['question']
+        answer = d_result['answer']
+        text = '问题:<h4>{}</h4>答案:<p style="color:red"><b>{}</b><p>'.format(question, answer)
         self.textBrowser.setText(text)
 
     @staticmethod
     def req(question='java'):
-        url = 'http://api.xmlm8.com/tp/tk.php?t=' + question
+        url = 'http://www.yxykw.com/questions_my.jsp?user=null'
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
-                          '/85.0.4183.83Safari/537.36'
+                          '/85.0.4183.83Safari/537.36',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        data = {
+            'question': question.strip()
         }
         try:
-            response = requests.get(url=url, headers=headers)
-            return response.text
+            response = requests.post(url=url, data=data, headers=headers)
+            pq = PyQuery(response.text)
+            result = pq('.result_list div').text().replace('使用公众号免费查答案', '').strip().replace('\n', '')
+            return result.replace('解析： 暂无解析', '')
         except:
             return '{"tm": "请检查网络环境！", "da": "请检查网络环境！"}'
 

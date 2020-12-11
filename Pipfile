@@ -10,6 +10,7 @@ pyqt5 = "*"
 pyqt5-tools = "*"
 requests = "*"
 pyinstaller = "*"
+pyquery = "*"
 
 [requires]
 python_version = "3.7"
