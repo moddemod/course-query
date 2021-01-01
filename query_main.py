@@ -25,7 +25,7 @@ class Window(QWidget, Ui_Form):
 
 
     def set_window(self):
-        self.setWindowTitle('查题助手 v3.0')
+        self.setWindowTitle('查题助手 v3.0.1')
         self.setMaximumSize(600, 300)
         self.setMinimumWidth(300)
         self.adjustSize()
@@ -62,8 +62,8 @@ class Window(QWidget, Ui_Form):
         try:
             r_list = result.split('正确答案：')
             d_result = {
-                'question': r_list[0],
-                'answer': r_list[1]
+                'question': self.question,
+                'answer': r_list[1].replace('\n', '')
             }
         except:
             d_result = {
@@ -89,7 +89,7 @@ class Window(QWidget, Ui_Form):
         try:
             response = requests.post(url=url, data=data, headers=headers)
             pq = PyQuery(response.text)
-            result = pq('.result_list div').text().replace('使用公众号免费查答案', '').strip().replace('\n', '')
+            result = pq('.result_list div#answerNone0').text()
             return result.replace('解析： 暂无解析', '')
         except:
             return '{"tm": "请检查网络环境！", "da": "请检查网络环境！"}'
